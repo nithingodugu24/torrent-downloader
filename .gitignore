@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.env
+state/
+downloads/
+torrent-files/
+backend/app.db
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+*.log

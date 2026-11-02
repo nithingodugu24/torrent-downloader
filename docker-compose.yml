@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: .
+    env_file: .env
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./downloads:/app/downloads
+      - ./state:/app/state
+      - ./torrent-files:/app/torrent-files
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app/frontend
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "127.0.0.1:5173:5173"
+    volumes:
+      - ./:/app
+    depends_on:
+      - backend
