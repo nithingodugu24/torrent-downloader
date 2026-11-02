@@ -1,4 +1,4 @@
-# UWSLeech
+# Torrent Downloader
 
 <!-- impeccable:product-schema 1 -->
 
@@ -8,7 +8,7 @@ web
 
 ## Users
 
-The owner uses UWSLeech personally on their local computer to manage authorized torrents, monitor transfers, and stream video to VLC. Personal local use was confirmed during initialization on 2026-11-02.
+The owner uses Torrent Downloader personally on their local computer to manage authorized torrents, monitor transfers, and stream video to VLC. Personal local use was confirmed during initialization on 2026-11-02.
 
 ## Product Purpose
 
@@ -36,7 +36,7 @@ Provide a private local workspace for adding and managing torrent transfers, und
 
 ## Brand Commitments
 
-Preserve the existing product name, UWSLeech. The owner requested Impeccable for future interface design work. No additional binding visual direction was established during initialization.
+Preserve the existing product name, Torrent Downloader. The owner requested Impeccable for future interface design work. No additional binding visual direction was established during initialization.
 
 ## Evidence on Hand
 

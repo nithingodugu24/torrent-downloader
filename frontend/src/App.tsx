@@ -34,12 +34,12 @@ export function App() {
         Skip to transfers
       </a>
       <aside className="sidebar">
-        <a className="brand-block" href="/" aria-label="UWSLeech home">
+        <a className="brand-block" href="/" aria-label="Torrent Downloader home">
           <span className="brand-mark">
             <Download size={22} />
           </span>
           <span>
-            UWSLeech<span className="brand-caption">TRANSFER MANAGER</span>
+            Torrent Downloader<span className="brand-caption">TRANSFER MANAGER</span>
           </span>
         </a>
         <div className="nav-label">LIBRARY</div>
@@ -228,7 +228,7 @@ export function App() {
               ? 'Connected  /  Updates in real time'
               : 'Reconnecting to live updates...'}
           </span>
-          <span>UWSLeech / Local transfer manager</span>
+          <span>Torrent Downloader / Local transfer manager</span>
         </footer>
       </div>
       <AddTorrentModal

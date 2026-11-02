@@ -1,6 +1,6 @@
-# UWSLeech
+# Torrent Downloader
 
-UWSLeech is a local/private torrent management web app for legal, user-authorized torrents only. It provides a FastAPI backend, a React dashboard, WebSocket progress updates, SQLite persistence by default, and a libtorrent-backed runtime engine.
+Torrent Downloader is a local/private torrent management web app for legal, user-authorized torrents only. It provides a FastAPI backend, a React dashboard, WebSocket progress updates, SQLite persistence by default, and a libtorrent-backed runtime engine.
 
 This project does not include torrent search, copyright bypass tooling, DRM circumvention, or any feature intended to help unauthorized downloading.
 

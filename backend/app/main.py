@@ -44,7 +44,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 def create_app() -> FastAPI:
     settings = get_settings()
     app = FastAPI(
-        title="UWSLeech Authorized Torrent Manager",
+        title="Torrent Downloader",
         version="0.1.0",
         description="Local torrent management for legal, user-authorized torrents only.",
         lifespan=lifespan,

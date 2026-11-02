@@ -107,7 +107,12 @@ h3 {
   letter-spacing: -0.03em;
   padding: 0 8px;
 }
+.brand-block > span:last-child {
+  min-width: 0;
+  line-height: 1.25;
+}
 .brand-mark {
+  flex-shrink: 0;
   color: #84d9b9;
   display: grid;
   place-items: center;
