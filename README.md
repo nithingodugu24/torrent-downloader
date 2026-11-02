@@ -1,119 +1,150 @@
 # Torrent Downloader
 
-Torrent Downloader is a local/private torrent management web app for legal, user-authorized torrents only. It provides a FastAPI backend, a React dashboard, WebSocket progress updates, SQLite persistence by default, and a libtorrent-backed runtime engine.
+A local torrent manager with a browser dashboard. Add magnet links or `.torrent` files, follow live transfer progress, and stream supported videos to VLC while they download.
 
-This project does not include torrent search, copyright bypass tooling, DRM circumvention, or any feature intended to help unauthorized downloading.
+Use torrents you own or have permission to download. The app runs locally and does not include torrent search.
 
-## Features
+## Quick start on Windows
 
-- Add legal torrents by magnet URI or `.torrent` upload.
-- Start, pause, resume, stop, remove, and recheck tasks.
-- Live status, progress, speeds, ratio, peers, seeds, files, and task logs.
-- Per-task category, priority, bandwidth caps, max connections, and sequential mode.
-- Stream video to VLC while downloading, with copyable URLs and HTTP seeking support.
-- SQLite local database with PostgreSQL-ready async SQLAlchemy configuration.
-- Safe storage-root enforcement for torrent files and browser downloads.
-- Docker and docker-compose support for private/local deployment.
+### Install these once
 
-## Local Setup
+- [64-bit Python 3.11](https://www.python.org/downloads/) (recommended). During installation, enable **Add python.exe to PATH**.
+- [Node.js 20 or newer](https://nodejs.org/), including npm.
+- [VLC](https://www.videolan.org/vlc/) only if you want video playback.
 
-Create an environment file:
+### Start the app
 
-```powershell
-Copy-Item .env.example .env
-```
+1. Download or clone this project and extract it into a normal folder.
+2. Double-click **`start.bat`**.
+3. Wait for the first-time setup to finish. The launcher downloads Python requirements (including libtorrent), installs frontend dependencies, and builds the dashboard.
+4. Your browser opens at **[http://127.0.0.1:8000](http://127.0.0.1:8000)**.
 
-Install backend dependencies:
+**No `.env` file, database setup, manual pip/npm commands, or environment activation is needed.** The launcher manages a private `.venv` automatically and uses local defaults.
 
-```powershell
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
+Keep the launcher window open while using the app. Press **Ctrl+C** there to stop it and allow transfer state to save. Start it again with the same `start.bat`; unchanged dependencies and UI builds are reused. Internet is needed for first-time installation and downloading torrents, but unchanged setup does not reinstall packages.
 
-Install libtorrent Python bindings for your platform. The package name differs across environments:
+If PowerShell is your starting point:
 
 ```powershell
-pip install libtorrent
+.\start.bat
 ```
 
-On Debian/Ubuntu-based systems:
+If you already have an older copy running on port 8000, stop that server before starting the new launcher.
+
+## Linux and macOS
+
+Install Python 3.11 or newer and Node.js 20 or newer, then run from the project folder:
 
 ```bash
-sudo apt install python3-libtorrent
+python3 start.py
 ```
 
-With Conda:
+The launcher follows the same automatic setup process. On systems where Python's venv support is packaged separately, install it first (for example, `sudo apt install python3-venv` on Debian/Ubuntu). Libtorrent must have a compatible binary wheel for your Python and operating system; 64-bit Python 3.11 is the recommended starting point.
 
-```bash
-conda install -c conda-forge libtorrent
-```
+## Using the dashboard
 
-Run the backend:
+- **Add a transfer:** choose **Add torrent**, paste a magnet link or select a `.torrent` file, then submit. Open **Transfer options** only if you need a category, destination, priority, or sequential downloading.
+- **Find transfers:** use the sidebar filters, search box, status selector, and sort controls.
+- **Manage a transfer:** pause/resume it from the row. The more-actions menu contains stop, recheck, and remove.
+- **Inspect it:** select its name to open **Overview**, **Files**, and **Activity**. Transfer settings are available under Overview.
+- **Download a file:** use its download link in Files when available.
+
+### Watch in VLC while downloading
+
+1. Open a transfer's **Overview** and choose **Stream in VLC**.
+2. Wait for the initial video buffer, then copy the stream URL.
+3. In VLC, press **Ctrl+N**, paste the URL, and select **Play**.
+4. For a torrent with multiple videos, choose **Stream** beside the desired video in **Files**.
+
+Video options appear after metadata arrives. Streaming enables sequential downloading and resumes paused transfers. Playback and seeking can buffer when pieces or seeds are unavailable. Keep the app and torrent running; if a stream times out, prepare it again. Localhost URLs work on the same computer as the app.
+
+## Useful launcher options
 
 ```powershell
-uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
+# Install/build without opening or starting the app
+.\start.bat --setup-only
+
+# Start without opening a browser
+.\start.bat --no-browser
+
+# Use a different port
+.\start.bat --port 8001
+
+# Rebuild the dashboard
+.\start.bat --rebuild
 ```
 
-Run the frontend:
+The same options work with `python start.py` or `python3 start.py`. Re-running the launcher while its app is already running reopens the existing app. To use rebuilt code, stop the running app and restart it.
 
-```powershell
-cd frontend
-npm install
-npm run dev
-```
+## Your files and settings
 
-Open [http://127.0.0.1:5173](http://127.0.0.1:5173).
+| Folder | Contents | Keep it? |
+| --- | --- | --- |
+| `downloads/` | Downloaded and partially downloaded files | Yes |
+| `state/` | Task database and resume information | Yes |
+| `torrent-files/` | Uploaded torrent sources needed to restore tasks | Yes |
+| `.venv/` | Automatically installed Python packages | Recreated by the launcher if missing |
+| `.runtime/` | Setup/build fingerprints | Recreated automatically |
+| `frontend/dist/` | Built dashboard served by the app | Rebuilt automatically if missing |
+| `frontend/node_modules/` | Frontend build dependencies | Reinstalled when the UI needs a build |
 
-## Stream to VLC while downloading
+The existing database filename is retained for compatibility with older installations. Renaming the app does not create a new database or discard transfers.
 
-Add a magnet or `.torrent`, then select **Stream in VLC** in its details. For torrents
-with multiple videos, use **Stream** beside the file you want. Video options appear
-after torrent metadata arrives. Streaming enables sequential downloading and resumes
-paused torrents. Copy the displayed URL, press **Ctrl+N** in VLC, paste it, and play.
+### Optional configuration
 
-The server waits for verified downloaded pieces and prioritizes the requested video
-position, including when VLC seeks to the end for container metadata. Startup and
-seeking may buffer; playback needs enough available seeds and download speed to keep
-up with the video bitrate. If a piece is unavailable for two minutes, reopen the URL
-to retry. Keep the app server and torrent running. URLs use the configured API origin
-or the dashboard's origin; localhost URLs work on the same computer as the server.
+Defaults are enough for local use. Advanced users may copy `.env.example` to `.env` and change storage paths, bandwidth limits, connection limits, or database settings. Existing environment variables take precedence over `.env` values. No file is copied or overwritten automatically.
 
-## Docker
+The app binds to `127.0.0.1`. Public hosting and authentication are outside the default setup.
 
-Create `.env` from `.env.example`, then run:
+## Docker alternative
+
+With Docker and Compose installed:
 
 ```bash
 docker compose up --build
 ```
 
-The backend and frontend bind to `127.0.0.1` by default. Keep that behavior for private/local use unless you add authentication or a protected reverse proxy.
+Open **[http://127.0.0.1:8000](http://127.0.0.1:8000)**. The image builds the dashboard and runs it together with the API. Python and Node do not need to be installed on the host, and no `.env` file is required. Downloads, state, and torrent sources persist in the mounted folders.
 
-## Configuration
+Stop with **Ctrl+C**, or use `docker compose down` after running in detached mode. Add advanced environment overrides to the `app` service's `environment` section when needed.
 
-Important settings live in `.env.example`:
+## Troubleshooting
 
-- `DATABASE_URL`: defaults to SQLite, can be changed to a PostgreSQL async URL.
-- `STORAGE_ROOT`: all torrent data and browser downloads must stay under this root.
-- `TORRENT_STATE_DIR`: resume-data storage.
-- `TORRENT_FILE_DIR`: uploaded `.torrent` storage.
-- `ALLOWED_HOSTS` and `CORS_ORIGINS`: browser/API deployment boundaries.
-- `PUBLIC_RATE_LIMIT_PER_MINUTE`: optional in-memory limit for exposed HTTP endpoints.
+| Problem | What to do |
+| --- | --- |
+| Python was not found | Install 64-bit Python 3.11 with the PATH option, then reopen the launcher. |
+| Node/npm was not found | Install Node.js 20 or newer, then reopen the terminal or launcher. |
+| Installation failed | Read the first error in the launcher window. Check internet access, proxy/firewall settings, and available disk space, then retry. |
+| No matching libtorrent distribution | Use 64-bit Python 3.11. Binary support varies by platform; the launcher avoids compiling libtorrent from source. |
+| Port 8000 is in use | Stop the older server or use `start.bat --port 8001`. The launcher does not terminate unrelated processes. |
+| Browser did not open | Visit the address printed in the launcher window. |
+| Setup needs repairing | Stop the app, delete `.venv` and `.runtime`, then run the launcher again. Keep `downloads`, `state`, and `torrent-files`. |
+| No download progress | Check the transfer status, available seeds, internet connection, and any bandwidth limits. |
+| VLC buffers or cannot open a link | Prepare the stream again, check seeds/speed, and keep the app running on the same computer. |
 
-## Development Checks
+## Development
+
+The regular launcher serves a production UI build from FastAPI. For frontend hot reload, run the backend and Vite separately:
 
 ```powershell
-py -3.11 -m compileall backend tests
-pytest
-ruff check backend tests
+# First install normal app requirements/build
+.\start.bat --setup-only
+
+# Terminal 1: backend
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
+
+# Terminal 2: frontend (http://127.0.0.1:5173)
 cd frontend
-npm run build
+npm run dev
 ```
 
-Backend tests cover service and HTTP behavior with an in-process fake engine. A local
-video streaming test also exercises real libtorrent when its bindings are installed.
-Runtime requires real libtorrent bindings.
+Install optional development tools and run checks from the project root:
 
-## Legal Demo Sources
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pytest
+.\.venv\Scripts\python.exe -m ruff check backend tests start.py
+npm --prefix frontend run build
+```
 
-For testing with real torrents, use only public-domain, open-source, or otherwise authorized content. Good candidates are official Linux distribution torrents or public-domain media distributed by its rights holder. Do not add unlicensed content.
+`backend/` contains FastAPI and the torrent engine; `frontend/src/` contains the React UI; `tests/` contains service, API, streaming, and launcher checks. `.agents`, `.codex`, and `.impeccable` contain the configured development/design tooling, not app data. Test caches, old logs, build metadata, and cache archives are generated files and do not belong in source control.

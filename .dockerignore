@@ -1,0 +1,17 @@
+.git
+.agents
+.codex
+.impeccable
+.venv
+.runtime
+**/__pycache__
+**/node_modules
+frontend/dist
+frontend/.impeccable
+downloads
+state
+torrent-files
+output
+**/*.log
+**/*_cache
+.env

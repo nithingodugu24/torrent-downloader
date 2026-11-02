@@ -17,7 +17,8 @@ Provide a private local workspace for adding and managing torrent transfers, und
 ## Operating Context
 
 - Browser-based React and TypeScript frontend served with Vite; FastAPI backend with a libtorrent runtime.
-- Default local development addresses: frontend `http://127.0.0.1:5173`, backend `http://127.0.0.1:8000`.
+- Normal startup uses `start.bat` (Windows) or `python3 start.py`, automatically installs local requirements, and serves the dashboard and API together at `http://127.0.0.1:8000`. No manual environment activation or `.env` file is required.
+- Optional frontend development uses Vite at `http://127.0.0.1:5173` with the backend at port 8000.
 - Start the frontend with `npm run dev` from `frontend`; build it with `npm run build` there.
 - Progress updates arrive through WebSocket messages. SQLite persists task state by default.
 - VLC playback uses a prepared HTTP stream URL pasted into VLC's network-stream dialog. Playback and seeking may buffer while pieces download.

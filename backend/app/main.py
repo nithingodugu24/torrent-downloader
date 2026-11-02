@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api import events, torrents, ws
 from app.config import get_settings
@@ -41,7 +43,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         await engine.close()
 
 
-def create_app() -> FastAPI:
+def create_app(frontend_dir: Path | None = None) -> FastAPI:
     settings = get_settings()
     app = FastAPI(
         title="Torrent Downloader",
@@ -68,7 +70,11 @@ def create_app() -> FastAPI:
 
     @app.get("/api/health")
     async def health() -> dict[str, str]:
-        return {"status": "ok"}
+        return {"status": "ok", "app": "torrent-downloader"}
+
+    frontend_dir = frontend_dir or Path(__file__).resolve().parents[2] / "frontend" / "dist"
+    if (frontend_dir / "index.html").is_file():
+        app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 
     return app
 
