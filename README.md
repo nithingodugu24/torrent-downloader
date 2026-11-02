@@ -4,6 +4,28 @@ A local torrent manager with a browser dashboard. Add magnet links or `.torrent`
 
 Use torrents you own or have permission to download. The app runs locally and includes internal search across Bitsearch, UIndex, LimeTorrents, The Pirate Bay, and TorrentDownload.
 
+## Dashboard preview
+
+Screenshots of the app with illustrative sample data. Transfer speeds, availability counts, and search results are examples.
+
+### Track your downloads
+
+See overall download/upload speeds, transfer progress, estimated time remaining, and queue controls in one place. Use the sidebar to filter downloading, seeding, completed, or paused transfers.
+
+![Transfer dashboard showing speed summaries and a queue of downloading, seeding, paused, and completed transfers](docs/screenshots/transfer-dashboard.png)
+
+### Find torrents
+
+Search across sources, compare availability signals, and optionally enter your internet speed for a rough download-time estimate before adding a transfer.
+
+![Torrent search showing source progress, availability signals, and estimated download times for sample Ubuntu results](docs/screenshots/torrent-search.png)
+
+### Inspect a transfer and prepare video playback
+
+Select a transfer to inspect its progress, connected peers, files, and activity. For supported videos, **Stream in VLC** prepares a playback URL while the download continues; see [Watch in VLC while downloading](#watch-in-vlc-while-downloading) for the steps.
+
+![Transfer details showing download progress, connection statistics, and the Stream in VLC control for an open movie](docs/screenshots/transfer-details.png)
+
 ## Quick start on Windows
 
 ### Install these once
