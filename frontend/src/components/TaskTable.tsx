@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import type { TorrentTask } from '../api/types';
 import { formatBytes, formatPercent, formatSpeed } from '../utils/format';
+import { estimateRemaining, transferConnection } from '../utils/downloadEstimate';
+import { AvailabilitySignal } from './AvailabilitySignal';
 
 interface TaskTableProps {
   tasks: TorrentTask[];
@@ -123,6 +125,10 @@ export function TaskTable({
                       {task.category || 'Uncategorized'} / {task.peers} peers /{' '}
                       {task.seeds} seeds
                     </span>
+                    <span className={`task-connection outlook-${transferConnection(task).tone}`}>
+                      <AvailabilitySignal bars={transferConnection(task).bars} />
+                      <span>{transferConnection(task).label}</span>
+                    </span>
                   </span>
                 </button>
               </td>
@@ -149,6 +155,9 @@ export function TaskTable({
                       }}
                     />
                   </div>
+                  <span className="transfer-eta" title="Estimated remaining time at the current download speed; changes as speed changes.">
+                    {estimateRemaining(task)}
+                  </span>
                 </div>
               </td>
               <td data-label="Download" className="speed-cell">

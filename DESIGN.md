@@ -167,6 +167,12 @@ Keep Bitsearch, UIndex, LimeTorrents, The Pirate Bay, and TorrentDownload. Each 
 
 Availability labels are estimates, not connection tests or speed guarantees. Keep the guidance disclosure, optional raw counts, best-availability/source sorting, warning messages, add-pending state, Added confirmation, and links back to transfers. Loading placeholders coexist with live source feedback; they must not conceal already-returned results.
 
+### Availability signals and time estimates
+
+Four ascending bars communicate estimated search availability without claiming a probability: unknown counts use unfilled neutral bars and an explicit unknown label; zero complete copies show zero bars, one to four copies one bar, heavy demand (over ten downloaders per complete copy) two bars, five to nineteen complete copies three bars, and twenty or more four bars. Keep accompanying text and optional raw counts. Live transfer signals describe actual connection state: metadata remains unknown, receiving pieces without a full source uses two bars, and receiving data with a full source uses four.
+
+Time remaining uses `(total_size - downloaded) / download_speed` only when size and a positive measured rate are available. Paused, queued, stopped, metadata, and stalled transfers show a state instead. Show coarse minutes, hours, or days, qualified as approximate and updating with speed. Search's optional Mbps field models time from reported file size and the entered speed; its default is empty, and every modeled estimate states that it may take longer. Never infer a transfer speed or exact success percentage from seed/peer counts.
+
 ## Do's and Don'ts
 
 ### Do:

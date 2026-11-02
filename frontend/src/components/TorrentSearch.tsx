@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Check, CircleAlert, CircleHelp, Clock3, Download, ExternalLink, Search, Signal, Info } from 'lucide-react';
+import { ArrowRight, Check, Clock3, Download, ExternalLink, Search, Info } from 'lucide-react';
 import { loadProviders } from '../utils/loadProviders';
+import { AvailabilitySignal } from './AvailabilitySignal';
+import { estimateSearchTime } from '../utils/downloadEstimate';
 import { estimateAvailability } from '../utils/availability';
 import { searchTorrents, resolveSearchMagnet, type SearchResult, type SearchResponse } from '../api/client';
 
@@ -10,6 +12,7 @@ export function TorrentSearch({ onAdd, onViewTransfers }: { onAdd: (magnet: stri
   const [query, setQuery] = useState('');
   const [provider, setProvider] = useState('all');
   const [sort, setSort] = useState('availability');
+  const [estimateMbps, setEstimateMbps] = useState('');
   const [notice, setNotice] = useState('');
   const [response, setResponse] = useState<SearchResponse | null>(null);
   const [busy, setBusy] = useState(false);
@@ -99,11 +102,17 @@ export function TorrentSearch({ onAdd, onViewTransfers }: { onAdd: (magnet: stri
         </label>
         <button className="primary-button" disabled={!query.trim()}>{busy ? 'Search again' : 'Find torrents'}<ArrowRight size={17} aria-hidden="true" /></button>
       </form>
+      <div className="search-speed-estimator">
+        <label htmlFor="estimate-speed">Your internet speed <span>(optional)</span></label>
+        <div><input id="estimate-speed" type="number" min="0.1" max="100000" step="0.1" inputMode="decimal" placeholder="e.g. 100" value={estimateMbps} onChange={event => setEstimateMbps(event.target.value)} aria-describedby="estimate-speed-help" /><span>Mbps</span></div>
+        <p id="estimate-speed-help">Enter your speed for a rough download-time estimate. Actual torrent speed can be lower.</p>
+      </div>
       <details className="availability-guide">
         <summary><Info size={15} aria-hidden="true" />How do I choose a download?</summary>
         <div><p>Start with <strong>Well shared</strong> or <strong>Available</strong>. These have more people reported to hold the complete file.</p>
           <p><strong>May be slow</strong> means very few complete copies, or many people downloading per copy. <strong>May not finish</strong> means no complete copies were reported. Missing counts show as <strong>Availability unknown</strong>.</p>
-          <p>These are estimates from the search site, not a connection test. Counts can be outdated. Your connection and other people’s upload speeds affect actual speed; completion is never guaranteed.</p></div>
+          <p>These are estimates from the search site, not a connection test. Counts can be outdated. Your connection and other people’s upload speeds affect actual speed; completion is never guaranteed.</p>
+        <p>Signal bars summarize availability: four means many complete copies, three means several, two means heavy demand, one means very few copies, and empty bars mean none reported. Unknown counts are shown separately. This is not a measured probability.</p></div>
       </details>
     </div>
     {error && <div className="error-banner" role="alert">{error}</div>}
@@ -128,14 +137,14 @@ export function TorrentSearch({ onAdd, onViewTransfers }: { onAdd: (magnet: stri
       <ul className="search-result-list" aria-label="Torrent search results">
         {results.map(result => {
           const outlook = estimateAvailability(result.seeds, result.leeches);
-          const OutlookIcon = outlook.tone === 'unknown' ? CircleHelp : outlook.tone === 'poor' ? CircleAlert : outlook.tone === 'slow' ? Clock3 : Signal;
           const isAdded = added.has(result.url);
           return <li className="search-result" key={result.url}>
             <div className="search-result-info"><a className="search-result-title" href={result.url} target="_blank" rel="noopener noreferrer">{result.title}<ExternalLink size={13} aria-hidden="true" /></a>
               <div className="search-result-meta"><span>{providers[result.provider]}</span><span>{result.size ?? 'Size unknown'}</span></div>
             </div>
             <div className={`result-outlook outlook-${outlook.tone}`}>
-              <strong><OutlookIcon size={17} aria-hidden="true" />{outlook.label}</strong><p>{outlook.description}</p>
+              <strong><AvailabilitySignal bars={outlook.bars} />{outlook.label}</strong><p>{outlook.description}</p>
+              <div className="search-time-estimate"><Clock3 size={13} aria-hidden="true" /><span>{estimateSearchTime(result.size, Number(estimateMbps))}<small>{Number(estimateMbps) > 0 ? `At ${estimateMbps} Mbps · may take longer` : 'Add your internet speed above to estimate'}</small></span></div>
               <details className="result-counts"><summary>Source counts</summary><p>{result.seeds?.toLocaleString() ?? 'Unknown'} complete copies (seeds)<br />{result.leeches?.toLocaleString() ?? 'Unknown'} downloading (peers)</p></details>
             </div>
             <button className={isAdded ? 'ghost-button result-download added' : 'primary-button result-download'} aria-label={`${isAdded ? 'Added' : 'Download'} ${result.title}`} disabled={!!pending || isAdded} onClick={() => void add(result)}>

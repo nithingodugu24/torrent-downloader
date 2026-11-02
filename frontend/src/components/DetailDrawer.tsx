@@ -20,6 +20,8 @@ import type {
 import { formatBytes, formatPercent, formatSpeed } from '../utils/format';
 import { LogPanel } from './LogPanel';
 import { prepareStream } from '../api/client';
+import { estimateRemaining, transferConnection } from '../utils/downloadEstimate';
+import { AvailabilitySignal } from './AvailabilitySignal';
 
 interface DetailDrawerProps {
   task: TorrentTask | null;
@@ -207,6 +209,14 @@ export function DetailDrawer({
               <span style={{ width: `${Math.min(100, Math.max(0, task.progress * 100))}%` }} />
             </div>
             <p>{task.status === 'metadata' ? 'Finding torrent metadata...' : task.status === 'paused' ? 'Transfer paused' : task.status === 'completed' ? 'Download completed' : `${formatBytes(task.downloaded)} of ${formatBytes(task.total_size)} received`}</p>
+            <div className="drawer-download-outlook">
+              <span>Estimated time remaining <strong>{estimateRemaining(task)}</strong></span>
+              <span className={`connection-outlook outlook-${transferConnection(task).tone}`}>
+                <AvailabilitySignal bars={transferConnection(task).bars} />
+                {transferConnection(task).label}
+              </span>
+              <small>Time updates with the download speed. Source connections can change.</small>
+            </div>
           </div>
           <div className="stats-grid">
             <Metric label="Progress" value={formatPercent(task.progress)} />

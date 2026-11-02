@@ -28,3 +28,12 @@ test('sort ranks prefer well shared results and leave unknown ahead of no copies
   const counts = [[0, 0], [null, null], [2, 0], [10, 200], [10, 0], [50, 0]];
   assert.deepEqual(counts.map(([seeds, peers]) => estimate(seeds, peers).rank), [0, 1, 2, 3, 4, 5]);
 });
+
+test('signal strength covers unknown, empty, weak, busy and well-shared sources', () => {
+  assert.equal(estimate(null,10).bars,null);
+  assert.equal(estimate(0,10).bars,0);
+  assert.equal(estimate(1,0).bars,1);
+  assert.equal(estimate(10,101).bars,2);
+  assert.equal(estimate(5,0).bars,3);
+  assert.equal(estimate(20,0).bars,4);
+});
