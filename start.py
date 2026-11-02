@@ -117,20 +117,40 @@ def prepare_frontend(rebuild: bool = False) -> None:
 def is_our_app(url: str) -> bool:
     try:
         with urllib.request.urlopen(f"{url}/api/health", timeout=1) as response:  # noqa: S310 -- localhost HTTP only
-            return json.load(response).get("app") == "torrent-downloader"
+            payload = json.load(response)
+            return isinstance(payload, dict) and payload.get("app") == "torrent-downloader"
     except (OSError, ValueError):
         return False
 
 
+def saved_port() -> int | None:
+    try:
+        port = json.loads((RUNTIME / "server.json").read_text())["port"]
+        if type(port) is int and 1 <= port <= 65535:
+            return port
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    return None
+
+
+def available_port(preferred: int) -> int:
+    # Try nearby ports first, then let the OS choose if the range is occupied.
+    for candidate in [*range(preferred, min(preferred + 100, 65536)), 0]:
+        with socket.socket() as probe:
+            try:
+                probe.bind(("127.0.0.1", candidate))
+            except OSError:
+                continue
+            return int(probe.getsockname()[1])
+    raise RuntimeError("No local port is available. Check local firewall/network settings.")
+
+
 def serve(python: Path, port: int, open_browser: bool) -> None:
+    requested = port
+    port = available_port(port)
+    if port != requested:
+        print(f"Port {requested} is busy; using port {port} automatically.", flush=True)
     url = f"http://127.0.0.1:{port}"
-    with socket.socket() as probe:
-        try:
-            probe.bind(("127.0.0.1", port))
-        except OSError as exc:
-            raise RuntimeError(
-                f"Port {port} is in use. Close that server or use --port {port + 1}."
-            ) from exc
     print(f"\n[3/3] Starting Torrent Downloader at {url}", flush=True)
     print("Keep this window open. Press Ctrl+C to stop the app.\n", flush=True)
     process = subprocess.Popen(  # noqa: S603 -- app-local Python and validated port
@@ -152,6 +172,8 @@ def serve(python: Path, port: int, open_browser: bool) -> None:
         deadline = time.monotonic() + 60
         while process.poll() is None and time.monotonic() < deadline:
             if is_our_app(url):
+                RUNTIME.mkdir(exist_ok=True)
+                (RUNTIME / "server.json").write_text(json.dumps({"port": port}))
                 if open_browser:
                     webbrowser.open(url)
                 process.wait()
@@ -179,18 +201,26 @@ def main() -> int:
     parser.add_argument("--setup-only", action="store_true", help="Install/build without starting")
     parser.add_argument("--no-browser", action="store_true", help="Do not open the browser")
     parser.add_argument("--rebuild", action="store_true", help="Force an interface rebuild")
-    parser.add_argument("--port", type=int, default=8000, help="Local app port (default: 8000)")
+    parser.add_argument("--port", type=int, help="Preferred local port (auto-selects if busy)")
     args = parser.parse_args()
-    if not 1 <= args.port <= 65535:
+    if args.port is not None and not 1 <= args.port <= 65535:
         parser.error("--port must be between 1 and 65535")
     os.chdir(ROOT)
     print("Torrent Downloader", flush=True)
     try:
-        if not args.setup_only and is_our_app(f"http://127.0.0.1:{args.port}"):
-            print(f"Already running at http://127.0.0.1:{args.port}")
-            if not args.no_browser:
-                webbrowser.open(f"http://127.0.0.1:{args.port}")
-            return 0
+        remembered = saved_port()
+        preferred = args.port or remembered or 8000
+        if not args.setup_only:
+            candidates = [preferred]
+            if args.port is None and 8000 not in candidates:
+                candidates.append(8000)
+            for candidate in candidates:
+                url = f"http://127.0.0.1:{candidate}"
+                if is_our_app(url):
+                    print(f"Already running at {url}")
+                    if not args.no_browser:
+                        webbrowser.open(url)
+                    return 0
         if sys.version_info < (3, 11):  # noqa: UP036 -- explain unsupported launcher runtimes
             raise RuntimeError("Install 64-bit Python 3.11 or newer, then run this launcher again.")
         RUNTIME.mkdir(exist_ok=True)
@@ -199,7 +229,7 @@ def main() -> int:
         if args.setup_only:
             print("\nSetup complete. Run start.bat (Windows) or python3 start.py to open the app.")
         else:
-            serve(python, args.port, not args.no_browser)
+            serve(python, preferred, not args.no_browser)
         return 0
     except KeyboardInterrupt:
         print("\nTorrent Downloader stopped.")
@@ -207,7 +237,7 @@ def main() -> int:
     except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
         print(f"\nSetup/start failed: {exc}", file=sys.stderr)
         print(
-            "Check internet access for install errors. See README.md for troubleshooting.",
+            "See README.md for troubleshooting.",
             file=sys.stderr,
         )
         return 1

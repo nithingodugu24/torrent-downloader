@@ -26,13 +26,14 @@ Provide a private local workspace for adding and managing torrent transfers, und
 ## Capabilities and Constraints
 
 - Add tasks using magnet URIs or `.torrent` uploads.
+- Find torrents in a dedicated sidebar view with estimated availability labels, best-availability sorting, and optional raw source counts. Preserve search results when switching back to transfers.
 - Search, filter, and sort transfers; inspect progress, size, speeds, peers, seeds, and ratio.
 - Resume, pause, stop, recheck, and remove transfers.
 - Inspect files and task events; download available files and prepare supported video streams.
 - Configure category, priority, bandwidth caps, maximum connections, and sequential downloading per task.
 - Preserve existing task data and backend behavior during interface work.
 - Torrent data and browser downloads must stay within the configured storage root.
-- The project is intended for legal, user-authorized torrents. It does not provide torrent search, DRM circumvention, or copyright bypass features.
+- The project is intended for legal, user-authorized torrents. It provides internal torrent search across Bitsearch, UIndex, LimeTorrents, The Pirate Bay, and TorrentDownload, with magnet-based adding. It does not provide DRM circumvention or copyright bypass features.
 - Local/private deployment is the established context; public hosting and multi-user authentication are not confirmed requirements.
 
 ## Brand Commitments

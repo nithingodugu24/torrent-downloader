@@ -2,7 +2,7 @@
 
 A local torrent manager with a browser dashboard. Add magnet links or `.torrent` files, follow live transfer progress, and stream supported videos to VLC while they download.
 
-Use torrents you own or have permission to download. The app runs locally and does not include torrent search.
+Use torrents you own or have permission to download. The app runs locally and includes internal search across Bitsearch, UIndex, LimeTorrents, The Pirate Bay, and TorrentDownload.
 
 ## Quick start on Windows
 
@@ -17,7 +17,7 @@ Use torrents you own or have permission to download. The app runs locally and do
 1. Download or clone this project and extract it into a normal folder.
 2. Double-click **`start.bat`**.
 3. Wait for the first-time setup to finish. The launcher downloads Python requirements (including libtorrent), installs frontend dependencies, and builds the dashboard.
-4. Your browser opens at **[http://127.0.0.1:8000](http://127.0.0.1:8000)**.
+4. Your browser opens automatically. The default address is **[http://127.0.0.1:8000](http://127.0.0.1:8000)**; if that port is busy, the launcher picks another available port and prints the correct address.
 
 **No `.env` file, database setup, manual pip/npm commands, or environment activation is needed.** The launcher manages a private `.venv` automatically and uses local defaults.
 
@@ -29,7 +29,7 @@ If PowerShell is your starting point:
 .\start.bat
 ```
 
-If you already have an older copy running on port 8000, stop that server before starting the new launcher.
+No manual port changes are needed. If another service is using port 8000, the launcher chooses a free port automatically and remembers it. Starting the launcher again reopens the running app; after stopping it, the next launch tries the remembered port first.
 
 ## Linux and macOS
 
@@ -44,6 +44,7 @@ The launcher follows the same automatic setup process. On systems where Python's
 ## Using the dashboard
 
 - **Add a transfer:** choose **Add torrent**, paste a magnet link or select a `.torrent` file, then submit. Open **Transfer options** only if you need a category, destination, priority, or sequential downloading.
+- **Search torrents:** open **Find torrents** in the sidebar, enter keywords, choose a source or **All sources**, and select **Find torrents**. Results are sorted by estimated availability, with plain-language labels such as **Well shared**, **May be slow**, and **May not finish**. **Download** adds a transfer using its magnet link. Expand **Source counts** for raw seed/peer numbers. Availability comes from site-reported counts and cannot guarantee speed or completion. Results appear as each source responds, while slower sources continue searching. Source progress, outages, and blocks appear beside the results. You can use **Stop search** to keep the results already loaded, or start another search without waiting. Search terms are sent to the selected sites.
 - **Find transfers:** use the sidebar filters, search box, status selector, and sort controls.
 - **Manage a transfer:** pause/resume it from the row. The more-actions menu contains stop, recheck, and remove.
 - **Inspect it:** select its name to open **Overview**, **Files**, and **Activity**. Transfer settings are available under Overview.
@@ -67,7 +68,7 @@ Video options appear after metadata arrives. Streaming enables sequential downlo
 # Start without opening a browser
 .\start.bat --no-browser
 
-# Use a different port
+# Prefer a particular port (automatically falls back if busy)
 .\start.bat --port 8001
 
 # Rebuild the dashboard
@@ -116,7 +117,7 @@ Stop with **Ctrl+C**, or use `docker compose down` after running in detached mod
 | Node/npm was not found | Install Node.js 20 or newer, then reopen the terminal or launcher. |
 | Installation failed | Read the first error in the launcher window. Check internet access, proxy/firewall settings, and available disk space, then retry. |
 | No matching libtorrent distribution | Use 64-bit Python 3.11. Binary support varies by platform; the launcher avoids compiling libtorrent from source. |
-| Port 8000 is in use | Stop the older server or use `start.bat --port 8001`. The launcher does not terminate unrelated processes. |
+| Port 8000 is in use | No action needed: the launcher selects an available port, remembers it, and opens the correct address. Other processes are left running. |
 | Browser did not open | Visit the address printed in the launcher window. |
 | Setup needs repairing | Stop the app, delete `.venv` and `.runtime`, then run the launcher again. Keep `downloads`, `state`, and `torrent-files`. |
 | No download progress | Check the transfer status, available seeds, internet connection, and any bandwidth limits. |

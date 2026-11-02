@@ -3,10 +3,12 @@ import {
   ArrowDown,
   ArrowUp,
   CheckCheck,
-  Download,
+  Activity,
+  ArrowDownToLine,
   HardDrive,
   Layers3,
   Pause,
+  Search,
   ShieldCheck
 } from 'lucide-react';
 import { formatBytes, formatSpeed } from './utils/format';
@@ -15,11 +17,13 @@ import { DetailDrawer } from './components/DetailDrawer';
 import { GlobalControls } from './components/GlobalControls';
 import { TaskTable } from './components/TaskTable';
 import { TopBar } from './components/TopBar';
+import { TorrentSearch } from './components/TorrentSearch';
 import { useTorrents } from './state/useTorrents';
 
 export function App() {
   const torrents = useTorrents();
   const [isAddOpen, setAddOpen] = useState(false);
+  const [view, setView] = useState<'transfers' | 'search'>('transfers');
 
   const filters = [
     { value: '', label: 'All transfers', icon: Layers3 },
@@ -30,28 +34,39 @@ export function App() {
   ];
   return (
     <div className="app-shell">
-      <a className="skip-link" href="#transfers">
-        Skip to transfers
+      <a className="skip-link" href="#workspace">
+        Skip to content
       </a>
       <aside className="sidebar">
         <a className="brand-block" href="/" aria-label="Torrent Downloader home">
           <span className="brand-mark">
-            <Download size={22} />
+            <ArrowDownToLine size={21} strokeWidth={2.3} />
           </span>
-          <span>
-            Torrent Downloader<span className="brand-caption">TRANSFER MANAGER</span>
+          <span className="brand-wordmark">
+            Torrent<span>Downloader</span>
           </span>
         </a>
-        <div className="nav-label">LIBRARY</div>
+        <div className="sidebar-workspace-label">PERSONAL WORKSPACE</div>
+        <nav className="workspace-nav" aria-label="Workspace">
+          <button
+            className={`nav-item ${view === 'search' ? 'active' : ''}`}
+            aria-current={view === 'search' ? 'page' : undefined}
+            onClick={() => { setView('search'); torrents.setSelectedId(null); }}
+          >
+            <Search size={18} />
+            <span>Find torrents</span>
+          </button>
+        </nav>
+        <div className="nav-label">LIBRARY <span>{torrents.allTasks.length}</span></div>
         <nav aria-label="Transfer filters">
           {filters.map(({ value, label, icon: Icon }) => (
             <button
               key={value}
               aria-current={
-                torrents.statusFilter === value ? 'page' : undefined
+                view === 'transfers' && torrents.statusFilter === value ? 'page' : undefined
               }
-              className={`nav-item ${torrents.statusFilter === value ? 'active' : ''}`}
-              onClick={() => torrents.setStatusFilter(value)}
+              className={`nav-item ${view === 'transfers' && torrents.statusFilter === value ? 'active' : ''}`}
+              onClick={() => { setView('transfers'); torrents.setStatusFilter(value); }}
             >
               <Icon size={18} />
               <span>{label}</span>
@@ -66,14 +81,15 @@ export function App() {
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <ShieldCheck size={18} />
+          <span className="sidebar-device-icon"><ShieldCheck size={17} /></span>
           <div>
-            Local workspace<span>Legal, user-authorized torrents only</span>
+            Running locally<span>Your transfers stay on this device</span>
           </div>
         </div>
       </aside>
       <div className="main-shell">
         <TopBar
+          title={view === 'search' ? 'Find torrents' : 'Transfers'}
           connected={torrents.connected}
           refreshing={torrents.refreshing}
           onAdd={() => setAddOpen(true)}
@@ -83,11 +99,21 @@ export function App() {
               .catch((err: Error) => torrents.setError(err.message))
           }
         />
-        <main id="transfers" className="workspace">
+        <main id="workspace" className="workspace">
+          <div hidden={view !== 'search'}>
+            <TorrentSearch
+              onViewTransfers={() => setView('transfers')}
+              onAdd={(magnet_uri) => torrents.addMagnetTask({
+                magnet_uri, priority: 4, is_sequential: false
+              })}
+            />
+          </div>
+          <div hidden={view !== 'transfers'}>
           <div className="page-heading">
             <div>
-              <h1>Transfers</h1>
-              <p>Everything you're downloading, in one place.</p>
+              <div className="eyebrow"><span /> YOUR DOWNLOADS</div>
+              <h1>Transfer center</h1>
+              <p>A clear view of everything moving through your queue.</p>
             </div>
             <span className="workspace-label">
               <HardDrive size={15} /> Local workspace
@@ -98,10 +124,8 @@ export function App() {
             aria-label="Transfer overview"
             aria-busy={torrents.loading}
           >
-            <div>
-              <span>
-                <ArrowDown size={16} /> Download speed
-              </span>
+            <div className="summary-card">
+              <div className="summary-topline"><span>Download speed</span><span className="summary-icon down"><ArrowDown size={18} /></span></div>
               <strong>
                 {formatSpeed(
                   torrents.allTasks.reduce(
@@ -110,11 +134,10 @@ export function App() {
                   )
                 )}
               </strong>
+              <small>Current incoming traffic</small>
             </div>
-            <div>
-              <span>
-                <ArrowUp size={16} /> Upload speed
-              </span>
+            <div className="summary-card">
+              <div className="summary-topline"><span>Upload speed</span><span className="summary-icon up"><ArrowUp size={18} /></span></div>
               <strong>
                 {formatSpeed(
                   torrents.allTasks.reduce(
@@ -123,11 +146,10 @@ export function App() {
                   )
                 )}
               </strong>
+              <small>Current outgoing traffic</small>
             </div>
-            <div>
-              <span>
-                <Download size={16} /> Active downloads
-              </span>
+            <div className="summary-card">
+              <div className="summary-topline"><span>Active transfers</span><span className="summary-icon active"><Activity size={18} /></span></div>
               <strong>
                 {
                   torrents.allTasks.filter((task) =>
@@ -135,11 +157,10 @@ export function App() {
                   ).length
                 }
               </strong>
+              <small>Downloading or connecting</small>
             </div>
-            <div>
-              <span>
-                <HardDrive size={16} /> Downloaded
-              </span>
+            <div className="summary-card">
+              <div className="summary-topline"><span>Data downloaded</span><span className="summary-icon storage"><HardDrive size={18} /></span></div>
               <strong>
                 {formatBytes(
                   torrents.allTasks.reduce(
@@ -148,17 +169,21 @@ export function App() {
                   )
                 )}
               </strong>
+              <small>Across all transfers</small>
             </div>
           </section>
           <section className="task-pane">
             <div className="list-heading">
-              <h2>
-                {filters.find(
-                  (filter) => filter.value === torrents.statusFilter
-                )?.label ?? 'Transfers'}{' '}
-                <span>{torrents.tasks.length}</span>
-              </h2>
-              <span>Select a transfer to view details</span>
+              <div>
+                <div className="section-eyebrow">QUEUE MANAGEMENT</div>
+                <h2>
+                  {filters.find(
+                    (filter) => filter.value === torrents.statusFilter
+                  )?.label ?? 'Transfers'}{' '}
+                  <span>{torrents.tasks.length}</span>
+                </h2>
+              </div>
+              <span>Choose a transfer to inspect files and activity</span>
             </div>
             <GlobalControls
               search={torrents.search}
@@ -195,6 +220,7 @@ export function App() {
               }
             />
           </section>
+          </div>
           {torrents.selectedTask && (
             <button
               className="drawer-backdrop"

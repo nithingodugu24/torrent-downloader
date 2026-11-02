@@ -1,0 +1,432 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-02T11:28:38.668017+00:00",
+  "title": "Design System: Torrent Downloader",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Royal Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0154 265.15)",
+          "oklch(27% 0.0968 265.15)",
+          "oklch(39% 0.1282 265.15)",
+          "oklch(51% 0.1595 265.15)",
+          "oklch(63% 0.1491 265.15)",
+          "oklch(75% 0.1177 265.15)",
+          "oklch(87% 0.0203 265.15)",
+          "oklch(95% 0.0154 265.15)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Deep Royal Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0154 264.74)",
+          "oklch(27% 0.0968 264.74)",
+          "oklch(39% 0.1282 264.74)",
+          "oklch(51% 0.1595 264.74)",
+          "oklch(63% 0.1491 264.74)",
+          "oklch(75% 0.1177 264.74)",
+          "oklch(87% 0.0203 264.74)",
+          "oklch(95% 0.0154 264.74)"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Dark Slate",
+        "tonalRamp": [
+          "oklch(15% 0.0099 260.99)",
+          "oklch(27% 0.0147 260.99)",
+          "oklch(39% 0.0195 260.99)",
+          "oklch(51% 0.0243 260.99)",
+          "oklch(63% 0.0227 260.99)",
+          "oklch(75% 0.0179 260.99)",
+          "oklch(87% 0.0131 260.99)",
+          "oklch(95% 0.0099 260.99)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Cool Ground",
+        "tonalRamp": [
+          "oklch(15% 0.0011 264.54)",
+          "oklch(27% 0.0016 264.54)",
+          "oklch(39% 0.0022 264.54)",
+          "oklch(51% 0.0027 264.54)",
+          "oklch(63% 0.0025 264.54)",
+          "oklch(75% 0.0020 264.54)",
+          "oklch(87% 0.0015 264.54)",
+          "oklch(95% 0.0011 264.54)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(27% 0.0000 89.88)",
+          "oklch(39% 0.0000 89.88)",
+          "oklch(51% 0.0000 89.88)",
+          "oklch(63% 0.0000 89.88)",
+          "oklch(75% 0.0000 89.88)",
+          "oklch(87% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Cool Border",
+        "tonalRamp": [
+          "oklch(15% 0.0035 258.34)",
+          "oklch(27% 0.0052 258.34)",
+          "oklch(39% 0.0069 258.34)",
+          "oklch(51% 0.0086 258.34)",
+          "oklch(63% 0.0081 258.34)",
+          "oklch(75% 0.0064 258.34)",
+          "oklch(87% 0.0047 258.34)",
+          "oklch(95% 0.0035 258.34)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Slate Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0122 256.28)",
+          "oklch(27% 0.0180 256.28)",
+          "oklch(39% 0.0239 256.28)",
+          "oklch(51% 0.0297 256.28)",
+          "oklch(63% 0.0278 256.28)",
+          "oklch(75% 0.0219 256.28)",
+          "oklch(87% 0.0161 256.28)",
+          "oklch(95% 0.0122 256.28)"
+        ]
+      },
+      "readable-muted": {
+        "role": "neutral",
+        "displayName": "Readable Slate",
+        "tonalRamp": [
+          "oklch(15% 0.0149 257.87)",
+          "oklch(27% 0.0221 257.87)",
+          "oklch(39% 0.0292 257.87)",
+          "oklch(51% 0.0364 257.87)",
+          "oklch(63% 0.0340 257.87)",
+          "oklch(75% 0.0268 257.87)",
+          "oklch(87% 0.0197 257.87)",
+          "oklch(95% 0.0149 257.87)"
+        ]
+      },
+      "sidebar-muted": {
+        "role": "neutral",
+        "displayName": "Sidebar Slate",
+        "tonalRamp": [
+          "oklch(15% 0.0146 257.40)",
+          "oklch(27% 0.0215 257.40)",
+          "oklch(39% 0.0285 257.40)",
+          "oklch(51% 0.0355 257.40)",
+          "oklch(63% 0.0332 257.40)",
+          "oklch(75% 0.0262 257.40)",
+          "oklch(87% 0.0192 257.40)",
+          "oklch(95% 0.0146 257.40)"
+        ]
+      },
+      "nav-active": {
+        "role": "semantic",
+        "displayName": "Selected Slate Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0154 264.04)",
+          "oklch(27% 0.0383 264.04)",
+          "oklch(39% 0.0507 264.04)",
+          "oklch(51% 0.0631 264.04)",
+          "oklch(63% 0.0589 264.04)",
+          "oklch(75% 0.0465 264.04)",
+          "oklch(87% 0.0203 264.04)",
+          "oklch(95% 0.0154 264.04)"
+        ]
+      },
+      "nav-indicator": {
+        "role": "semantic",
+        "displayName": "Navigation Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0154 268.59)",
+          "oklch(27% 0.0913 268.59)",
+          "oklch(39% 0.1209 268.59)",
+          "oklch(51% 0.1505 268.59)",
+          "oklch(63% 0.1406 268.59)",
+          "oklch(75% 0.1110 268.59)",
+          "oklch(87% 0.0203 268.59)",
+          "oklch(95% 0.0154 268.59)"
+        ]
+      },
+      "focus": {
+        "role": "semantic",
+        "displayName": "Focus Blue",
+        "tonalRamp": [
+          "oklch(15% 0.0154 265.43)",
+          "oklch(27% 0.0968 265.43)",
+          "oklch(39% 0.1282 265.43)",
+          "oklch(51% 0.1595 265.43)",
+          "oklch(63% 0.1491 265.43)",
+          "oklch(75% 0.1177 265.43)",
+          "oklch(87% 0.0203 265.43)",
+          "oklch(95% 0.0154 265.43)"
+        ]
+      },
+      "downloading": {
+        "role": "semantic",
+        "displayName": "Downloading Green",
+        "tonalRamp": [
+          "oklch(15% 0.0154 169.79)",
+          "oklch(27% 0.0462 169.79)",
+          "oklch(39% 0.0611 169.79)",
+          "oklch(51% 0.0761 169.79)",
+          "oklch(63% 0.0711 169.79)",
+          "oklch(75% 0.0562 169.79)",
+          "oklch(87% 0.0203 169.79)",
+          "oklch(95% 0.0154 169.79)"
+        ]
+      },
+      "downloading-bg": {
+        "role": "semantic",
+        "displayName": "Downloading Tint",
+        "tonalRamp": [
+          "oklch(15% 0.0064 168.50)",
+          "oklch(27% 0.0095 168.50)",
+          "oklch(39% 0.0126 168.50)",
+          "oklch(51% 0.0157 168.50)",
+          "oklch(63% 0.0147 168.50)",
+          "oklch(75% 0.0116 168.50)",
+          "oklch(87% 0.0085 168.50)",
+          "oklch(95% 0.0064 168.50)"
+        ]
+      },
+      "paused": {
+        "role": "semantic",
+        "displayName": "Paused Amber",
+        "tonalRamp": [
+          "oklch(15% 0.0154 68.13)",
+          "oklch(27% 0.0606 68.13)",
+          "oklch(39% 0.0802 68.13)",
+          "oklch(51% 0.0998 68.13)",
+          "oklch(63% 0.0933 68.13)",
+          "oklch(75% 0.0736 68.13)",
+          "oklch(87% 0.0203 68.13)",
+          "oklch(95% 0.0154 68.13)"
+        ]
+      },
+      "paused-bg": {
+        "role": "semantic",
+        "displayName": "Paused Tint",
+        "tonalRamp": [
+          "oklch(15% 0.0091 79.74)",
+          "oklch(27% 0.0135 79.74)",
+          "oklch(39% 0.0179 79.74)",
+          "oklch(51% 0.0223 79.74)",
+          "oklch(63% 0.0208 79.74)",
+          "oklch(75% 0.0164 79.74)",
+          "oklch(87% 0.0121 79.74)",
+          "oklch(95% 0.0091 79.74)"
+        ]
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "Error Red",
+        "tonalRamp": [
+          "oklch(15% 0.0154 23.65)",
+          "oklch(27% 0.0871 23.65)",
+          "oklch(39% 0.1154 23.65)",
+          "oklch(51% 0.1436 23.65)",
+          "oklch(63% 0.1342 23.65)",
+          "oklch(75% 0.1059 23.65)",
+          "oklch(87% 0.0203 23.65)",
+          "oklch(95% 0.0154 23.65)"
+        ]
+      },
+      "error-bg": {
+        "role": "semantic",
+        "displayName": "Error Tint",
+        "tonalRamp": [
+          "oklch(15% 0.0071 17.48)",
+          "oklch(27% 0.0105 17.48)",
+          "oklch(39% 0.0140 17.48)",
+          "oklch(51% 0.0174 17.48)",
+          "oklch(63% 0.0162 17.48)",
+          "oklch(75% 0.0128 17.48)",
+          "oklch(87% 0.0094 17.48)",
+          "oklch(95% 0.0071 17.48)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Queue section titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Inherited application text."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Buttons and compact actions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase table headers."
+      }
+    },
+    "shadows": [
+      {
+        "name": "summary",
+        "value": "0 2px 4px #172d4b06, 0 10px 26px #172d4b03",
+        "purpose": "Quiet metric surfaces."
+      },
+      {
+        "name": "table",
+        "value": "0 3px 12px #1e355108",
+        "purpose": "Transfer queue boundary."
+      },
+      {
+        "name": "primary",
+        "value": "0 2px 5px #25489b25",
+        "purpose": "Primary action separation."
+      },
+      {
+        "name": "menu",
+        "value": "0 12px 40px #1b2c4530",
+        "purpose": "Open row action menu."
+      },
+      {
+        "name": "drawer",
+        "value": "-15px 0 50px #17243b26",
+        "purpose": "Right-side task inspector."
+      },
+      {
+        "name": "modal",
+        "value": "0 25px 90px #15243e4d",
+        "purpose": "Add-torrent dialog."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "160ms ease",
+        "purpose": "Background, border, color, and transform state transitions; disabled under reduced motion."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "none",
+        "purpose": "Inherited reduced-motion rules disable transitions and animations; redesign removes scrim blur."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "rail-compact",
+        "value": "1250px"
+      },
+      {
+        "name": "search-columns",
+        "value": "1100px"
+      },
+      {
+        "name": "summary-two-column",
+        "value": "1000px"
+      },
+      {
+        "name": "navigation-strip",
+        "value": "900px"
+      },
+      {
+        "name": "compact-controls",
+        "value": "650px"
+      },
+      {
+        "name": "mobile-reflow",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The principal action in transfer and search workflows.",
+      "html": "<button class=\"ds-primary\">Find torrents</button>",
+      "css": ".ds-primary{font-family:Inter,\"Segoe UI Variable\",\"Segoe UI\",ui-sans-serif,system-ui,sans-serif;font-size:13px;font-weight:650;min-height:40px;padding:0 15px;border:1px solid var(--accent,#315edc);border-radius:9px;background:var(--accent,#315edc);color:#fff;box-shadow:0 2px 5px #25489b25;transition:background-color .16s ease,border-color .16s ease}.ds-primary:hover{background:var(--accent-strong,#244dbd);border-color:var(--accent-strong,#244dbd)}.ds-primary:focus-visible{outline:2px solid #4b7cff;outline-offset:3px}.ds-primary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary operations and navigation back to transfers.",
+      "html": "<button class=\"ds-ghost\">Your transfers</button>",
+      "css": ".ds-ghost{font-family:Inter,\"Segoe UI Variable\",\"Segoe UI\",ui-sans-serif,system-ui,sans-serif;font-size:13px;font-weight:650;min-height:40px;padding:0 15px;border:1px solid #dce3ec;border-radius:9px;background:#fff;color:#374357;transition:background-color .16s ease,border-color .16s ease}.ds-ghost:hover{background:#f3f6fc;border-color:#cad7ed}.ds-ghost:focus-visible{outline:2px solid #4b7cff;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-ghost{transition:none}}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "A labeled field with the current control shape and focus treatment.",
+      "html": "<label class=\"ds-field\">What are you looking for?<input class=\"ds-input\" placeholder=\"Search by name or keywords\" /></label>",
+      "css": ".ds-field{display:grid;gap:8px;font-family:Inter,\"Segoe UI Variable\",\"Segoe UI\",ui-sans-serif,system-ui,sans-serif;font-size:12px;color:#55657b}.ds-input{font-family:Inter,\"Segoe UI Variable\",\"Segoe UI\",ui-sans-serif,system-ui,sans-serif;font-size:13px;min-height:44px;padding:0 14px;color:#40516a;background:var(--surface,#fff);border:1px solid #dfe5ed;border-radius:9px;caret-color:var(--accent,#315edc)}.ds-input::placeholder{color:#65748a}.ds-input:hover{border-color:#dfe5ed}.ds-input:focus{outline:2px solid #8faeff;outline-offset:1px}"
+    },
+    {
+      "name": "Selected Navigation",
+      "kind": "nav",
+      "refersTo": "nav-active",
+      "description": "Selected workspace link on the dark navigation rail.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace\"><a class=\"ds-nav-item\" href=\"#transfers\" aria-current=\"page\">Transfers</a></nav>",
+      "css": ".ds-nav{padding:16px;background:#141b27}.ds-nav-item{display:block;font-family:Inter,\"Segoe UI Variable\",\"Segoe UI\",ui-sans-serif,system-ui,sans-serif;font-size:13px;font-weight:600;text-decoration:none;padding:12px 13px;border:1px solid #3a517b;border-radius:9px;background:#27385c;color:#fff;box-shadow:inset 3px 0 #7395ff}.ds-nav-item:hover{background:#202b3c;color:#f4f7fb}.ds-nav-item:focus-visible{outline:2px solid #4b7cff;outline-offset:3px}"
+    },
+    {
+      "name": "Downloading Status",
+      "kind": "chip",
+      "refersTo": "status-downloading",
+      "description": "Text and dot reinforce a semantic transfer state.",
+      "html": "<span class=\"ds-chip\"><span class=\"ds-dot\" aria-hidden=\"true\"></span>Downloading</span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:6px;font-family:Inter,\"Segoe UI Variable\",\"Segoe UI\",ui-sans-serif,system-ui,sans-serif;font-size:11px;font-weight:660;border-radius:6px;padding:6px 8px;background:#e7f5ef;color:#256f59}.ds-dot{width:6px;height:6px;border-radius:50%;background:currentColor}"
+    },
+    {
+      "name": "Summary Card",
+      "kind": "card",
+      "refersTo": "summary-card",
+      "description": "A live transfer metric in a restrained white panel.",
+      "html": "<section class=\"ds-card\" aria-label=\"Download speed\"><span class=\"ds-card-label\">Download speed</span><strong class=\"ds-card-value\">2.4 MB/s</strong><small class=\"ds-card-note\">Across active transfers</small></section>",
+      "css": ".ds-card{font-family:Inter,\"Segoe UI Variable\",\"Segoe UI\",ui-sans-serif,system-ui,sans-serif;border:1px solid #e4e9f0;border-radius:13px;padding:21px 23px 20px;min-height:105px;background:var(--surface,#fff);box-shadow:0 2px 4px #172d4b06,0 10px 26px #172d4b03}.ds-card-label{color:#65748a;font-size:12px;font-weight:600}.ds-card-value{display:block;margin-top:12px;font-size:29px;font-weight:730;line-height:1.2;letter-spacing:-.035em;color:#1e2a3b}.ds-card-note{display:block;margin-top:8px;font-size:11px;color:#65748a}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Local Transfer Workspace",
+    "overview": "The owner-supplied interface establishes a quiet utility workspace: a dark slate navigation rail, a pale working ground, white panels, and clear royal-blue actions. Compact typography and consistent alignment support repeated inspection of live transfers without turning the dashboard into decoration.\n\nVisual authority is `C:/Users/nithi/Downloads/torrent-downloader-redesigned.zip`, extracted for comparison in `.runtime/redesign-reference/`. The adopted system is implemented in `frontend/src/styles/redesign.css`, imported after `app.css` by `main.tsx`; both stylesheets contribute to the final cascade. The archive predates the current five-source search, so its visual language was merged into the working product rather than replacing its backend or current behavior. This name describes the adopted direction; it is not a new brand identity.",
+    "keyCharacteristics": [
+      "Slate navigation, pale ground, white working surfaces.",
+      "Blue actions with restrained status colors and visible keyboard focus.",
+      "Compact tables on desktop and readable transfer cards on narrow screens.",
+      "Live state, qualified availability estimates, and progressive source feedback."
+    ],
+    "rules": [
+      {
+        "name": "The Meaningful Color Rule",
+        "body": "Keep status labels and source feedback visible; color alone must not explain a transfer or availability state.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do follow the supplied archive's slate, blue, pale-ground, and white-surface direction.",
+      "Do preserve readable muted labels, visible focus, wrapping names, and mobile action access.",
+      "Do extend the same controls and surfaces to current search and VLC workflows.",
+      "Do treat `.impeccable/review/` screenshots as QA evidence, not shipping image assets."
+    ],
+    "donts": [
+      "Don't replace live state or current five-provider search with the archive's older implementation.",
+      "Don't replace the supplied labels or typography with a newly invented visual identity.",
+      "Don't imply that source counts guarantee speed or completion.",
+      "Don't introduce decorative raster imagery into this utility interface; no generated raster assets ship in this redesign."
+    ]
+  }
+}

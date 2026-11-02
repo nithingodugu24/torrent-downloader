@@ -2,6 +2,32 @@ import type { TaskEvent, TorrentFile, TorrentPatch, TorrentTask } from './types'
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
 
+export interface SearchResult {
+  provider: 'bitsearch' | 'uindex' | 'limetorrents' | 'piratebay' | 'torrentdownload';
+  title: string;
+  url: string;
+  size: string | null;
+  seeds: number | null;
+  leeches: number | null;
+  magnet_uri: string | null;
+}
+export interface SearchResponse {
+  results: SearchResult[];
+  errors: Record<string, string>;
+  page: number;
+}
+export function searchTorrents(q: string, provider: string, page: number, signal: AbortSignal): Promise<SearchResponse> {
+  const params = new URLSearchParams({ q, page: String(page) });
+  if (provider !== 'all') params.set('provider', provider);
+  return request(`/api/search?${params}`, { signal });
+}
+export async function resolveSearchMagnet(result: SearchResult): Promise<string> {
+  const response = await request<{ magnet_uri: string }>('/api/search/resolve', {
+    method: 'POST', body: JSON.stringify({ provider: result.provider, url: result.url })
+  });
+  return response.magnet_uri;
+}
+
 export async function prepareStream(id: string, index: number): Promise<string> {
   for (let attempt = 0; attempt < 12; attempt++) {
     const result = await request<{ url?: string; ready: boolean }>(

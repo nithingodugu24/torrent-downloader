@@ -59,16 +59,16 @@ export function TaskTable({
   if (!tasks.length)
     return (
       <div className="empty-state">
-        <Download size={32} strokeWidth={1.5} aria-hidden="true" />
+        <span className="empty-icon"><Download size={29} strokeWidth={1.7} aria-hidden="true" /></span>
         <h3>
           {filtered
-            ? 'No matching transfers'
-            : 'Your next download starts here'}
+            ? 'No transfers found'
+            : 'A fresh start.'}
         </h3>
         <p>
           {filtered
-            ? 'Try another search or choose a different status.'
-            : 'Add a magnet link or a .torrent file to get started.'}
+            ? 'Try a different search or clear your filters to see the full queue.'
+            : 'Your queue is empty. Add a magnet link or a torrent file to begin.'}
         </p>
         {filtered && (
           <button className="ghost-button" onClick={onClearFilters}>
@@ -133,7 +133,7 @@ export function TaskTable({
               </td>
               <td data-label="Progress">
                 <div className="progress-cell">
-                  <span>{formatPercent(task.progress)}</span>
+                  <span className="progress-value">{formatPercent(task.progress)}</span>
                   <div
                     className="progress-track"
                     role="progressbar"

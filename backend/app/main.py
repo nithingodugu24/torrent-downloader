@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from app.api import events, torrents, ws
+from app.api import events, search, torrents, ws
 from app.config import get_settings
 from app.db.session import SessionLocal, init_db
 from app.services.broadcaster import TorrentBroadcaster
@@ -66,6 +66,7 @@ def create_app(frontend_dir: Path | None = None) -> FastAPI:
     )
     app.include_router(torrents.router)
     app.include_router(events.router)
+    app.include_router(search.router)
     app.include_router(ws.router)
 
     @app.get("/api/health")

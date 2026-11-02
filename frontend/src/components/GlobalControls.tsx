@@ -28,8 +28,8 @@ export function GlobalControls({
         <input
           value={search}
           onChange={(event) => onSearch(event.target.value)}
-          placeholder="Search torrents..."
-          aria-label="Search torrents"
+          placeholder="Search transfers..."
+          aria-label="Search transfers"
         />
       </label>
       <select

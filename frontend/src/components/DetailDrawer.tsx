@@ -201,6 +201,13 @@ export function DetailDrawer({
       )}
       {view === 'overview' && (
         <>
+          <div className="drawer-progress-summary">
+            <div className="drawer-progress-heading"><span>TRANSFER PROGRESS</span><strong>{formatPercent(task.progress)}</strong></div>
+            <div className="drawer-progress-track" role="progressbar" aria-label="Transfer progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(task.progress * 100)}>
+              <span style={{ width: `${Math.min(100, Math.max(0, task.progress * 100))}%` }} />
+            </div>
+            <p>{task.status === 'metadata' ? 'Finding torrent metadata...' : task.status === 'paused' ? 'Transfer paused' : task.status === 'completed' ? 'Download completed' : `${formatBytes(task.downloaded)} of ${formatBytes(task.total_size)} received`}</p>
+          </div>
           <div className="stats-grid">
             <Metric label="Progress" value={formatPercent(task.progress)} />
             <Metric label="Downloaded" value={formatBytes(task.downloaded)} />

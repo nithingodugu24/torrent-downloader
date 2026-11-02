@@ -1,6 +1,7 @@
 import { Plus, RefreshCcw, ChevronRight, FolderDown } from 'lucide-react';
 
 interface TopBarProps {
+  title: string;
   connected: boolean;
   refreshing: boolean;
   onAdd: () => void;
@@ -8,6 +9,7 @@ interface TopBarProps {
 }
 
 export function TopBar({
+  title,
   connected,
   refreshing,
   onAdd,
@@ -17,9 +19,9 @@ export function TopBar({
     <header className="topbar">
       <div className="breadcrumb">
         <FolderDown size={17} />
-        <span>Workspace</span>
+        <span>Library</span>
         <ChevronRight size={14} />
-        <strong>Transfers</strong>
+        <strong>{title}</strong>
       </div>
       <div className="topbar-actions">
         <span className={`connection-pill ${connected ? 'online' : 'offline'}`}>

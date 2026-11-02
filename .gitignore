@@ -19,3 +19,4 @@ frontend/.vite/
 *_cache.zip
 output/
 .impeccable/config.local.json
+.impeccable/review/
